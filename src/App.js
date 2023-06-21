@@ -2,15 +2,31 @@
 
 import Header from "./Header";
 import Main from "./Main";
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "setQuestions":
+      return { ...state, questions: action.payload };
+    default:
+      throw new Error("Unknow action.");
+  }
+}
+
 export default function App() {
+  const initialState = { questions: [] };
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { questions } = state;
+
+  console.log(questions);
+
   useEffect(function () {
     async function getData() {
       try {
         const res = await fetch("http://localhost:8000/questions");
         if (!res.ok) throw new Error("Something happened.");
         const data = await res.json();
-        console.log(data);
+        dispatch({ type: "setQuestions", payload: data });
       } catch (err) {
         console.log(err.message);
       }
