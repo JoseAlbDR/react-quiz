@@ -9,14 +9,16 @@ function reducer(state, action) {
   switch (action.type) {
     case "setQuestions":
       return { ...state, questions: action.payload };
-    case "isLoading":
-      return { ...state, isLoading: true };
+    // case "isLoading":
+    //   return { ...state, isLoading: true };
     case "isNotLoading":
       return { ...state, isLoading: false };
     case "error":
       return { ...state, error: action.payload };
-    case "cleanError":
-      return { ...state, error: "" };
+    // case "cleanError":
+    //   return { ...state, error: "" };
+    case "fetching":
+      return { ...state, error: "", isLoading: true };
     default:
       throw new Error("Unknow action.");
   }
@@ -33,8 +35,9 @@ export default function App() {
   useEffect(function () {
     async function getData() {
       try {
-        dispatch({ type: "cleanError" });
-        dispatch({ type: "isLoading" });
+        // dispatch({ type: "cleanError" });
+        // dispatch({ type: "isLoading" });
+        dispatch({ type: "fetching" });
         const res = await fetch("http://localhost:8000/questions");
         if (!res.ok) throw new Error("Something happened.");
         const data = await res.json();
