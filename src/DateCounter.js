@@ -5,7 +5,7 @@ function DateCounter() {
   const [step, setStep] = useState(1);
 
   // This mutates the date object.
-  const date = new Date("june 21 2027");
+  const date = new Date();
   date.setDate(date.getDate() + count);
 
   const dec = function () {
@@ -50,7 +50,14 @@ function DateCounter() {
         <button onClick={inc}>+</button>
       </div>
 
-      <p>{date.toDateString()}</p>
+      <p>
+        {date.toLocaleDateString("es-ES", {
+          month: "long",
+          year: "numeric",
+          weekday: "long",
+          day: "numeric",
+        })}
+      </p>
 
       <div>
         <button onClick={reset}>Reset</button>
