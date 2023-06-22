@@ -13,6 +13,12 @@ function Question({ currQuestion, dispatch, answer, score }) {
         correctOption={correctOption}
         score={score}
       />
+      <button
+        className="btn btn-ui"
+        onClick={() => dispatch({ type: "nextQuestion" })}
+      >
+        Next
+      </button>
     </div>
   );
 }
