@@ -9,6 +9,7 @@ import { useEffect, useReducer, useRef } from "react";
 import StartScreen from "./StartScreen";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
+import FinishScreen from "./FinishScreen";
 
 // "loading", "error", "ready", "active", "finished"
 const initialState = {
@@ -41,8 +42,10 @@ function reducer(state, action) {
       };
     case "nextQuestion":
       return { ...state, currQuestion: state.currQuestion++, answer: null };
-    case "finished":
-      return;
+    case "finish":
+      return { ...state, status: "finished" };
+    case "restart":
+      return { ...initialState, status: "ready", questions: state.questions };
     default:
       throw new Error("Unknow action.");
   }
@@ -100,8 +103,16 @@ export default function App() {
               answer={answer}
               score={score}
             />
-            {answer !== null && <NextButton dispatch={dispatch} />}
+            {console.log(currQuestion, questions.length)}
+            {answer !== null && (
+              <NextButton dispatch={dispatch}>
+                {currQuestion + 1 === questions.length ? "Finish" : "Next"}
+              </NextButton>
+            )}
           </>
+        )}
+        {status === "finished" && (
+          <FinishScreen score={score} maxScore={maxScore} dispatch={dispatch} />
         )}
       </Main>
     </div>
