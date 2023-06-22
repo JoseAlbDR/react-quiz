@@ -1,11 +1,20 @@
-function Options({ options, dispatch }) {
+function Options({ options, dispatch, answer, correctOption }) {
+  function handleAnswer(i) {
+    dispatch({ type: "newAnswer", payload: i });
+  }
+
+  const answered = answer !== null;
+
   return (
     <div className="options">
       {options.map((option, i) => (
         <button
           key={option}
-          className={`btn btn-option`}
-          onClick={() => dispatch({ type: "newAnswer", payload: i })}
+          className={`btn btn-option
+          ${i === answer ? "answer" : ""} 
+          ${answered ? (i === correctOption ? "correct" : "wrong") : ""}`}
+          onClick={() => handleAnswer(i)}
+          disabled={answered}
         >
           {option}
         </button>

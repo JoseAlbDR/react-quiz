@@ -67,6 +67,7 @@ export default function App() {
           <Question
             currQuestion={questions[currQuestion]}
             dispatch={dispatch}
+            answer={answer}
           />
         )}
       </Main>
