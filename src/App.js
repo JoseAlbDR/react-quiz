@@ -7,14 +7,14 @@ import Error from "./Error";
 import { useEffect, useReducer } from "react";
 
 // "loading", "error", "ready", "active", "finished"
-const initialState = { questions: [], status: "loading" };
+const initialState = { questions: [], status: "loading", errorMsg: "" };
 
 function reducer(state, action) {
   switch (action.type) {
     case "dataRecieved":
       return { ...state, questions: action.payload, status: "ready" };
     case "dataFailed":
-      return { ...state, status: "error" };
+      return { ...state, status: "error", errorMsg: action.payload };
     default:
       throw new Error("Unknow action.");
   }
@@ -22,7 +22,7 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { questions, status } = state;
+  const { questions, status, errorMsg } = state;
 
   console.log(questions);
 
@@ -37,7 +37,7 @@ export default function App() {
         dispatch({ type: "dataRecieved", payload: data });
       } catch (err) {
         console.log(err.message);
-        dispatch({ type: "dataFailed" });
+        dispatch({ type: "dataFailed", payload: err.message });
       }
     }
     getData();
@@ -49,7 +49,7 @@ export default function App() {
 
       <Main>
         {status === "loading" && <Loader />}
-        {status === "error" && <Error />}
+        {status === "error" && <Error msg={errorMsg} />}
       </Main>
     </div>
   );
