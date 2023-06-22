@@ -33,8 +33,6 @@ export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { questions, status, errorMsg, currQuestion } = state;
 
-  console.log(questions);
-
   useEffect(function () {
     async function getData() {
       try {
