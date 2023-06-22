@@ -5,9 +5,10 @@ import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import Question from "./Question";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import StartScreen from "./StartScreen";
 import NextButton from "./NextButton";
+import Progress from "./Progress";
 
 // "loading", "error", "ready", "active", "finished"
 const initialState = {
@@ -48,6 +49,9 @@ function reducer(state, action) {
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { questions, status, errorMsg, currQuestion, answer, score } = state;
+  const maxScore = useRef(
+    questions.reduce((acc, question) => acc + question.points, 0)
+  );
 
   useEffect(function () {
     async function getData() {
@@ -77,12 +81,21 @@ export default function App() {
           <StartScreen numQuestions={questions.length} dispatch={dispatch} />
         )}
         {status === "active" && (
-          <Question
-            currQuestion={questions[currQuestion]}
-            dispatch={dispatch}
-            answer={answer}
-            score={score}
-          />
+          <>
+            <Progress
+              currQuestion={currQuestion}
+              numQuestions={questions.length}
+              score={score}
+            />
+            {console.log(maxScore)}
+            <Question
+              currQuestion={questions[currQuestion]}
+              dispatch={dispatch}
+              answer={answer}
+              score={score}
+              maxScore={maxScore.current}
+            />
+          </>
         )}
         {answer !== null && <NextButton dispatch={dispatch} />}
       </Main>
