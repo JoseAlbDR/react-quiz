@@ -4,6 +4,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
+import Question from "./Question";
 import { useEffect, useReducer } from "react";
 import StartScreen from "./StartScreen";
 
@@ -16,6 +17,8 @@ function reducer(state, action) {
       return { ...state, questions: action.payload, status: "ready" };
     case "dataFailed":
       return { ...state, status: "error", errorMsg: action.payload };
+    case "start":
+      return { ...state, status: "active" };
     default:
       throw new Error("Unknow action.");
   }
@@ -51,7 +54,10 @@ export default function App() {
       <Main>
         {status === "loading" && <Loader />}
         {status === "error" && <Error msg={errorMsg} />}
-        {status === "ready" && <StartScreen numQuestions={questions.length} />}
+        {status === "ready" && (
+          <StartScreen numQuestions={questions.length} dispatch={dispatch} />
+        )}
+        {status === "active" && <Question />}
       </Main>
     </div>
   );
