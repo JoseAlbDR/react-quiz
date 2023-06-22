@@ -3,6 +3,7 @@
 import Header from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
+import Error from "./Error";
 import { useEffect, useReducer } from "react";
 
 // "loading", "error", "ready", "active", "finished"
@@ -21,7 +22,7 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { questions, isLoading, error } = state;
+  const { questions, status } = state;
 
   console.log(questions);
 
@@ -37,8 +38,6 @@ export default function App() {
       } catch (err) {
         console.log(err.message);
         dispatch({ type: "dataFailed" });
-      } finally {
-        // dispatch({ type: "finished" });
       }
     }
     getData();
@@ -49,9 +48,8 @@ export default function App() {
       <Header />
 
       <Main>
-        {isLoading && !error && <Loader />}
-        <p>1/15</p>
-        <p>Question?</p>
+        {status === "loading" && <Loader />}
+        {status === "error" && <Error />}
       </Main>
     </div>
   );
