@@ -14,6 +14,7 @@ const initialState = {
   status: "loading",
   errorMsg: "",
   currQuestion: 0,
+  answer: null,
 };
 
 function reducer(state, action) {
@@ -24,6 +25,8 @@ function reducer(state, action) {
       return { ...state, status: "error", errorMsg: action.payload };
     case "start":
       return { ...state, status: "active" };
+    case "newAnswer":
+      return { ...state, answer: action.payload };
     default:
       throw new Error("Unknow action.");
   }
@@ -31,7 +34,7 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { questions, status, errorMsg, currQuestion } = state;
+  const { questions, status, errorMsg, currQuestion, answer } = state;
 
   useEffect(function () {
     async function getData() {
@@ -61,7 +64,10 @@ export default function App() {
           <StartScreen numQuestions={questions.length} dispatch={dispatch} />
         )}
         {status === "active" && (
-          <Question currQuestion={questions[currQuestion]} />
+          <Question
+            currQuestion={questions[currQuestion]}
+            dispatch={dispatch}
+          />
         )}
       </Main>
     </div>

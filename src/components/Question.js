@@ -1,18 +1,12 @@
-import { useState } from "react";
 import Options from "./Options";
 
-function Question({ currQuestion }) {
-  const [isCorrect, setIsCorrect] = useState(false);
+function Question({ currQuestion, dispatch }) {
   const { question, options, correctOption, points } = currQuestion;
-
-  function handleAsnwer(i) {
-    i === correctOption ? setIsCorrect(true) : setIsCorrect(false);
-  }
 
   return (
     <div>
       <h4>{question}</h4>
-      <Options options={options} />
+      <Options options={options} dispatch={dispatch} />
     </div>
   );
 }
