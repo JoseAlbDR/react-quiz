@@ -41,6 +41,8 @@ function reducer(state, action) {
       };
     case "nextQuestion":
       return { ...state, currQuestion: state.currQuestion++, answer: null };
+    case "finished":
+      return;
     default:
       throw new Error("Unknow action.");
   }
@@ -98,9 +100,9 @@ export default function App() {
               answer={answer}
               score={score}
             />
+            {answer !== null && <NextButton dispatch={dispatch} />}
           </>
         )}
-        {answer !== null && <NextButton dispatch={dispatch} />}
       </Main>
     </div>
   );
