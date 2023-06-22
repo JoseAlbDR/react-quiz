@@ -89,6 +89,7 @@ export default function App() {
               numQuestions={questions.length}
               score={score}
               maxScore={maxScore}
+              answer={answer}
             />
 
             <Question
