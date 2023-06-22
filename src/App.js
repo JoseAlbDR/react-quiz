@@ -9,7 +9,12 @@ import { useEffect, useReducer } from "react";
 import StartScreen from "./StartScreen";
 
 // "loading", "error", "ready", "active", "finished"
-const initialState = { questions: [], status: "loading", errorMsg: "" };
+const initialState = {
+  questions: [],
+  status: "loading",
+  errorMsg: "",
+  currQuestion: 0,
+};
 
 function reducer(state, action) {
   switch (action.type) {
@@ -26,7 +31,7 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { questions, status, errorMsg } = state;
+  const { questions, status, errorMsg, currQuestion } = state;
 
   console.log(questions);
 
@@ -57,7 +62,9 @@ export default function App() {
         {status === "ready" && (
           <StartScreen numQuestions={questions.length} dispatch={dispatch} />
         )}
-        {status === "active" && <Question />}
+        {status === "active" && (
+          <Question currQuestion={questions[currQuestion]} />
+        )}
       </Main>
     </div>
   );
