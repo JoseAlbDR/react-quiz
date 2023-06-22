@@ -15,6 +15,7 @@ const initialState = {
   errorMsg: "",
   currQuestion: 0,
   answer: null,
+  score: 0,
 };
 
 function reducer(state, action) {
@@ -26,7 +27,16 @@ function reducer(state, action) {
     case "start":
       return { ...state, status: "active" };
     case "newAnswer":
-      return { ...state, answer: action.payload };
+      const question = state.questions.at(state.currQuestion);
+      return {
+        ...state,
+        answer: action.payload,
+        score:
+          // action.payload = selected index
+          action.payload === question.correctQuestion
+            ? state.score + question.points
+            : state.score,
+      };
     default:
       throw new Error("Unknow action.");
   }
@@ -34,7 +44,7 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { questions, status, errorMsg, currQuestion, answer } = state;
+  const { questions, status, errorMsg, currQuestion, answer, score } = state;
 
   useEffect(function () {
     async function getData() {
