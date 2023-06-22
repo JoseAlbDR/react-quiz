@@ -51,7 +51,7 @@ export default function App() {
       <Main>
         {status === "loading" && <Loader />}
         {status === "error" && <Error msg={errorMsg} />}
-        {status === "ready" && <StartScreen questions={questions.length} />}
+        {status === "ready" && <StartScreen numQuestions={questions.length} />}
       </Main>
     </div>
   );
