@@ -7,6 +7,7 @@ import Error from "./Error";
 import Question from "./Question";
 import { useEffect, useReducer } from "react";
 import StartScreen from "./StartScreen";
+import NextButton from "./NextButton";
 
 // "loading", "error", "ready", "active", "finished"
 const initialState = {
@@ -83,6 +84,7 @@ export default function App() {
             score={score}
           />
         )}
+        {answer !== null && <NextButton dispatch={dispatch} />}
       </Main>
     </div>
   );
