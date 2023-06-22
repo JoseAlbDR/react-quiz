@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Options from "./components/Options";
+import Options from "./Options";
 
 function Question({ currQuestion }) {
   const [isCorrect, setIsCorrect] = useState(false);
