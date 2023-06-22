@@ -33,7 +33,7 @@ function reducer(state, action) {
         answer: action.payload,
         score:
           // action.payload = selected index
-          action.payload === question.correctQuestion
+          action.payload === question.correctOption
             ? state.score + question.points
             : state.score,
       };
@@ -78,6 +78,7 @@ export default function App() {
             currQuestion={questions[currQuestion]}
             dispatch={dispatch}
             answer={answer}
+            score={score}
           />
         )}
       </Main>

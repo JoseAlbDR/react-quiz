@@ -1,7 +1,7 @@
 import Options from "./Options";
 
-function Question({ currQuestion, dispatch, answer }) {
-  const { question, options, correctOption, points } = currQuestion;
+function Question({ currQuestion, dispatch, answer, score }) {
+  const { question, options, correctOption } = currQuestion;
 
   return (
     <div>
@@ -11,6 +11,7 @@ function Question({ currQuestion, dispatch, answer }) {
         dispatch={dispatch}
         answer={answer}
         correctOption={correctOption}
+        score={score}
       />
     </div>
   );

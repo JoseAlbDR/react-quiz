@@ -1,4 +1,4 @@
-function Options({ options, dispatch, answer, correctOption }) {
+function Options({ options, dispatch, answer, correctOption, score }) {
   function handleAnswer(i) {
     dispatch({ type: "newAnswer", payload: i });
   }
