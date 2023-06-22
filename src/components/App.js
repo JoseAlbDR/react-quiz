@@ -49,8 +49,10 @@ function reducer(state, action) {
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { questions, status, errorMsg, currQuestion, answer, score } = state;
-  const maxScore = useRef(
-    questions.reduce((acc, question) => acc + question.points, 0)
+
+  const maxScore = questions.reduce(
+    (acc, question) => acc + question.points,
+    0
   );
 
   useEffect(function () {
@@ -86,14 +88,14 @@ export default function App() {
               currQuestion={currQuestion}
               numQuestions={questions.length}
               score={score}
+              maxScore={maxScore}
             />
-            {console.log(maxScore)}
+
             <Question
               currQuestion={questions[currQuestion]}
               dispatch={dispatch}
               answer={answer}
               score={score}
-              maxScore={maxScore.current}
             />
           </>
         )}

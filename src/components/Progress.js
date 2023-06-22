@@ -1,13 +1,12 @@
 function Progress({ currQuestion, numQuestions, score, maxScore }) {
-  console.log(maxScore);
   return (
     <div className="progress">
-      <progress></progress>
+      <progress value={(currQuestion + 1) / numQuestions}></progress>
       <p>
-        Question {currQuestion + 1}/{numQuestions}
+        Question <strong>{currQuestion + 1}</strong>/{numQuestions}
       </p>
       <p>
-        {score}/{maxScore} points
+        <strong>{score}</strong>/{maxScore} points
       </p>
     </div>
   );
