@@ -95,7 +95,7 @@ export default function App() {
         // dispatch({ type: "loading" });
         // const res = await fetch("http://localhost:8000/questions");
         const res = await fetch(
-          "https://www.jadr-reactquiz.netlify/functions/data-json"
+          "https://www.jadr-reactquiz.netlify.app/functions/data-json"
         );
         if (!res.ok) throw new Error("Something happened.");
         const data = await res.json();
