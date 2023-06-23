@@ -22,6 +22,7 @@ const initialState = {
   answer: null,
   score: 0,
   highScore: 0,
+  remainSeconds: 10,
 };
 
 function reducer(state, action) {
@@ -54,6 +55,12 @@ function reducer(state, action) {
       };
     case "restart":
       return { ...initialState, status: "ready", questions: state.questions };
+    case "tick":
+      return {
+        ...state,
+        remainSeconds: state.remainSeconds - 1,
+        status: state.remainSeconds === 0 ? "finished" : state.status,
+      };
     default:
       throw new Error("Unknow action.");
   }
@@ -69,6 +76,7 @@ export default function App() {
     answer,
     score,
     highScore,
+    remainSeconds,
   } = state;
 
   const maxScore = questions.reduce(
@@ -120,14 +128,14 @@ export default function App() {
               score={score}
             />
 
-            {answer !== null && (
-              <Footer>
-                <Timer />
+            <Footer>
+              <Timer seconds={remainSeconds} dispatch={dispatch} />
+              {answer !== null && (
                 <NextButton dispatch={dispatch}>
                   {currQuestion + 1 === questions.length ? "Finish" : "Next"}
                 </NextButton>
-              </Footer>
-            )}
+              )}
+            </Footer>
           </>
         )}
         {status === "finished" && (
