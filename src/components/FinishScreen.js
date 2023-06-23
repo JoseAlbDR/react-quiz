@@ -22,7 +22,7 @@ function FinishScreen({ score, maxScore, dispatch, highScore }) {
         className="btn btn-ui"
         onClick={() => dispatch({ type: "restart" })}
       >
-        Restart
+        Restart Quiz
       </button>
     </>
   );
