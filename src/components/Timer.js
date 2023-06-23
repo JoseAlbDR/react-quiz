@@ -16,8 +16,8 @@ function Timer({ seconds, dispatch }) {
   );
 
   return (
-    <div className="timer">
-      {mins}:{secs < 10 ? `0${secs}` : secs}
+    <div className={`timer ${seconds <= 60 ? "red" : ""}`}>
+      {mins < 10 ? `0${mins}` : mins}:{secs < 10 ? `0${secs}` : secs}
     </div>
   );
 }
