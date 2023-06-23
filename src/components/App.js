@@ -10,6 +10,7 @@ import StartScreen from "./StartScreen";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
+import Footer from "./Footer";
 
 // "loading", "error", "ready", "active", "finished"
 const initialState = {
@@ -117,11 +118,13 @@ export default function App() {
               answer={answer}
               score={score}
             />
-            {console.log(currQuestion, questions.length)}
+
             {answer !== null && (
-              <NextButton dispatch={dispatch}>
-                {currQuestion + 1 === questions.length ? "Finish" : "Next"}
-              </NextButton>
+              <Footer>
+                <NextButton dispatch={dispatch}>
+                  {currQuestion + 1 === questions.length ? "Finish" : "Next"}
+                </NextButton>
+              </Footer>
             )}
           </>
         )}
