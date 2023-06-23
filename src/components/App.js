@@ -5,7 +5,7 @@ import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import Question from "./Question";
-import { useEffect, useReducer, useRef } from "react";
+import { useEffect, useReducer } from "react";
 import StartScreen from "./StartScreen";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
@@ -93,7 +93,10 @@ export default function App() {
     async function getData() {
       try {
         // dispatch({ type: "loading" });
-        const res = await fetch("http://localhost:8000/questions");
+        // const res = await fetch("http://localhost:8000/questions");
+        const res = await fetch(
+          "https://www.jadr-reactquiz.netlify/functions/data-json"
+        );
         if (!res.ok) throw new Error("Something happened.");
         const data = await res.json();
         if (!data) throw new Error("No data.");
