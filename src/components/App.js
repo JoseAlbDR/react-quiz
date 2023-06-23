@@ -11,6 +11,7 @@ import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
 import Footer from "./Footer";
+import Timer from "./Timer";
 
 // "loading", "error", "ready", "active", "finished"
 const initialState = {
@@ -121,6 +122,7 @@ export default function App() {
 
             {answer !== null && (
               <Footer>
+                <Timer />
                 <NextButton dispatch={dispatch}>
                   {currQuestion + 1 === questions.length ? "Finish" : "Next"}
                 </NextButton>
