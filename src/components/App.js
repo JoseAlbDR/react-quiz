@@ -19,6 +19,7 @@ const initialState = {
   currQuestion: 0,
   answer: null,
   score: 0,
+  highScore: 0,
 };
 
 function reducer(state, action) {
@@ -43,7 +44,12 @@ function reducer(state, action) {
     case "nextQuestion":
       return { ...state, currQuestion: state.currQuestion++, answer: null };
     case "finish":
-      return { ...state, status: "finished" };
+      return {
+        ...state,
+        status: "finished",
+        highScore:
+          state.score > state.highScore ? state.score : state.highScore,
+      };
     case "restart":
       return { ...initialState, status: "ready", questions: state.questions };
     default:
@@ -53,7 +59,15 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { questions, status, errorMsg, currQuestion, answer, score } = state;
+  const {
+    questions,
+    status,
+    errorMsg,
+    currQuestion,
+    answer,
+    score,
+    highScore,
+  } = state;
 
   const maxScore = questions.reduce(
     (acc, question) => acc + question.points,
@@ -112,7 +126,12 @@ export default function App() {
           </>
         )}
         {status === "finished" && (
-          <FinishScreen score={score} maxScore={maxScore} dispatch={dispatch} />
+          <FinishScreen
+            score={score}
+            maxScore={maxScore}
+            dispatch={dispatch}
+            highScore={highScore}
+          />
         )}
       </Main>
     </div>
