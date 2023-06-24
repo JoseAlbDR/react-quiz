@@ -14,7 +14,7 @@ function FinishScreen({ score, maxScore, dispatch, highScore }) {
     <>
       <p className="result">
         <span>{emoji}</span>
-        You scored <strong>{score}</strong> out of {maxScore} (
+        Tu puntuación <strong>{score}</strong> de {maxScore} (
         {Math.ceil(percentaje)}%)
       </p>
       <p className="highscore">(Highscore: {highScore} points)</p>
@@ -22,7 +22,7 @@ function FinishScreen({ score, maxScore, dispatch, highScore }) {
         className="btn btn-ui"
         onClick={() => dispatch({ type: "restart" })}
       >
-        Restart Quiz
+        Reiniciar Quiz
       </button>
     </>
   );
