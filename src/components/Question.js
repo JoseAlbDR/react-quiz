@@ -5,16 +5,15 @@ import { useEffect } from "react";
 
 function Question({ currQuestion, dispatch, answer, score }) {
   const { question, options, correctOption, code } = currQuestion;
-  console.log(currQuestion);
-  console.log(code);
+
   useEffect(() => {
     Prism.highlightAll();
-  }, []);
+  }, [currQuestion]);
 
   return (
     <div>
       <h4>{question}</h4>
-      <pre>
+      <pre className="language-javascript">
         <code className="language-javascript">{code}</code>
       </pre>
 
