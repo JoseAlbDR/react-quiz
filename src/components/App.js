@@ -13,7 +13,6 @@ import FinishScreen from "./FinishScreen";
 import Footer from "./Footer";
 import Timer from "./Timer";
 
-const SECS_PER_QUESTION = 500;
 // "loading", "error", "ready", "active", "finished"
 const initialState = {
   questions: [],
@@ -24,6 +23,8 @@ const initialState = {
   score: 0,
   highScore: 0,
   remainSeconds: null,
+  numQuestions: 10,
+  difficulty: 45,
 };
 
 function reducer(state, action) {
@@ -36,7 +37,7 @@ function reducer(state, action) {
       return {
         ...state,
         status: "active",
-        remainSeconds: state.questions.length * SECS_PER_QUESTION,
+        remainSeconds: state.questions.length * state.difficulty,
       };
     case "newAnswer":
       const question = state.questions.at(state.currQuestion);
@@ -66,6 +67,10 @@ function reducer(state, action) {
         remainSeconds: state.remainSeconds - 1,
         status: state.remainSeconds === 0 ? "finished" : state.status,
       };
+    case "setQuestions":
+      return { ...state, numQuestions: action.payload };
+    case "setDifficulty":
+      return { ...state, difficulty: action.payload };
     default:
       throw new Error("Unknow action.");
   }
@@ -82,8 +87,9 @@ export default function App() {
     score,
     highScore,
     remainSeconds,
+    numQuestions,
   } = state;
-
+  console.log(numQuestions);
   const maxScore = questions.reduce(
     (acc, question) => acc + question.points,
     0

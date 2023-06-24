@@ -10,7 +10,8 @@ function StartScreen({ numQuestions, dispatch }) {
       <div className="start-options">
         <SelectOption
           dispatch={dispatch}
-          label="Num Questions:"
+          label="Num Questions"
+          type="setQuestions"
           options={[
             {
               name: "10",
@@ -27,7 +28,9 @@ function StartScreen({ numQuestions, dispatch }) {
           ]}
         />
         <SelectOption
-          label="Dificculty:"
+          dispatch={dispatch}
+          label="Difficulty"
+          type="setDifficulty"
           options={[
             {
               name: "Easy",

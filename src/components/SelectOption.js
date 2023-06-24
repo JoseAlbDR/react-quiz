@@ -1,11 +1,11 @@
-function SelectOption({ label, options, dispatch }) {
+function SelectOption({ label, type, options, dispatch }) {
   return (
     <div>
       <div>
-        <h4>{label}</h4>
+        <h4>{label}:</h4>
         <select
           className="btn"
-          onChange={(e) => dispatch({ type: label, payload: e.target.value })}
+          onChange={(e) => dispatch({ type: type, payload: e.target.value })}
         >
           {options.map((option) => (
             <option key={option.name} value={option.value}>
