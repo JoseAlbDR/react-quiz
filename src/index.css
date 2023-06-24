@@ -295,3 +295,11 @@ code[class*="language-"] {
 .start-options h4 {
   margin-bottom: 0;
 }
+
+.finish-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.review-buttons {
+}

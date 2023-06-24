@@ -8,6 +8,7 @@ import Question from "./Question";
 import { useEffect, useReducer } from "react";
 import StartScreen from "./StartScreen";
 import NextButton from "./NextButton";
+import PrevButton from "./PrevButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
 import Footer from "./Footer";
@@ -25,16 +26,25 @@ const initialState = {
   remainSeconds: null,
   numQuestions: 10,
   difficulty: 45,
+  reviewQuestions: false,
+  failedQuestions: [],
 };
+
+let initialQuestions;
 
 function reducer(state, action) {
   switch (action.type) {
     case "dataRecieved":
-      return { ...state, questions: action.payload, status: "ready" };
+      initialQuestions = action.payload;
+      return {
+        ...state,
+        questions: action.payload,
+        status: "ready",
+      };
     case "dataFailed":
       return { ...state, status: "error", errorMsg: action.payload };
     case "start":
-      const shufled = state.questions.slice().sort(() => 0.5 - Math.random());
+      const shufled = initialQuestions.slice().sort(() => 0.5 - Math.random());
       const selected = shufled.slice(0, state.numQuestions);
       return {
         ...state,
@@ -52,9 +62,16 @@ function reducer(state, action) {
           action.payload === question.correctOption
             ? state.score + question.points
             : state.score,
+        failedQuestions:
+          action.payload !== question.correctOption
+            ? [...state.failedQuestions, question]
+            : state.failedQuestions,
       };
     case "nextQuestion":
       return { ...state, currQuestion: state.currQuestion++, answer: null };
+    case "prevQuestion":
+      console.log("here");
+      return { ...state, currQuestion: state.currQuestion-- };
     case "finish":
       return {
         ...state,
@@ -63,7 +80,11 @@ function reducer(state, action) {
           state.score > state.highScore ? state.score : state.highScore,
       };
     case "restart":
-      return { ...initialState, status: "ready", questions: state.questions };
+      return {
+        ...initialState,
+        status: "ready",
+        questions: initialQuestions,
+      };
     case "tick":
       return {
         ...state,
@@ -74,6 +95,14 @@ function reducer(state, action) {
       return { ...state, numQuestions: action.payload };
     case "setDifficulty":
       return { ...state, difficulty: action.payload };
+    case "review":
+      return {
+        ...state,
+        reviewQuestions: true,
+        currQuestion: 0,
+        questions: state.failedQuestions,
+        status: "review",
+      };
     default:
       throw new Error("Unknow action.");
   }
@@ -90,9 +119,9 @@ export default function App() {
     score,
     highScore,
     remainSeconds,
-    numQuestions,
+    reviewQuestions,
   } = state;
-  console.log(numQuestions);
+
   const maxScore = questions.reduce(
     (acc, question) => acc + question.points,
     0
@@ -152,6 +181,40 @@ export default function App() {
                   {currQuestion + 1 === questions.length ? "Finish" : "Next"}
                 </NextButton>
               )}
+            </Footer>
+          </>
+        )}
+        {status === "review" && (
+          <>
+            <Progress
+              currQuestion={currQuestion}
+              numQuestions={questions.length}
+              score={score}
+              maxScore={maxScore}
+              answer={answer}
+            />
+
+            <Question
+              currQuestion={questions[currQuestion]}
+              dispatch={dispatch}
+              answer={answer}
+              score={score}
+              reviewQuestions={reviewQuestions}
+            />
+
+            <Footer>
+              {
+                <div className="finish-buttons">
+                  {currQuestion !== 0 ? (
+                    <PrevButton dispatch={dispatch}>Previous</PrevButton>
+                  ) : (
+                    ""
+                  )}
+                  <NextButton dispatch={dispatch}>
+                    {currQuestion + 1 === questions.length ? "Finish" : "Next"}
+                  </NextButton>
+                </div>
+              }
             </Footer>
           </>
         )}

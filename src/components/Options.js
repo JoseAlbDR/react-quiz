@@ -1,4 +1,10 @@
-function Options({ options, dispatch, answer, correctOption, score }) {
+function Options({
+  options,
+  dispatch,
+  answer,
+  correctOption,
+  reviewQuestions,
+}) {
   function handleAnswer(i) {
     dispatch({ type: "newAnswer", payload: i });
   }
@@ -12,9 +18,15 @@ function Options({ options, dispatch, answer, correctOption, score }) {
           key={option}
           className={`btn btn-option
           ${i === answer ? "answer" : ""} 
-          ${answered ? (i === correctOption ? "correct" : "wrong") : ""}`}
+          ${
+            reviewQuestions || answered
+              ? i === correctOption
+                ? "correct"
+                : "wrong"
+              : ""
+          }`}
           onClick={() => handleAnswer(i)}
-          disabled={answered}
+          disabled={reviewQuestions || answered}
         >
           {option}
         </button>
