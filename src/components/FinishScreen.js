@@ -17,7 +17,7 @@ function FinishScreen({ score, maxScore, dispatch, highScore }) {
         Tu puntuación <strong>{score}</strong> de {maxScore} (
         {Math.ceil(percentaje)}%)
       </p>
-      <p className="highscore">(Highscore: {highScore} points)</p>
+      <p className="highscore">(Máxima Puntuación: {highScore} puntos)</p>
       <button
         className="btn btn-ui"
         onClick={() => dispatch({ type: "restart" })}
