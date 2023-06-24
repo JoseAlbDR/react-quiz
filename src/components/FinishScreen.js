@@ -1,4 +1,10 @@
-function FinishScreen({ score, maxScore, dispatch, highScore }) {
+function FinishScreen({
+  score,
+  maxScore,
+  dispatch,
+  highScore,
+  failedQuestions,
+}) {
   const percentaje = (score / maxScore) * 100;
   let emoji;
 
@@ -19,9 +25,12 @@ function FinishScreen({ score, maxScore, dispatch, highScore }) {
       </p>
       <p className="highscore">(HighScore: {highScore} points)</p>
       <div className="finish-buttons">
-        <button className="btn" onClick={() => dispatch({ type: "review" })}>
-          Review Answers
-        </button>
+        {failedQuestions.length !== 0 && (
+          <button className="btn" onClick={() => dispatch({ type: "review" })}>
+            Review Answers
+          </button>
+        )}
+
         <button
           className="btn btn-ui"
           onClick={() => dispatch({ type: "restart" })}

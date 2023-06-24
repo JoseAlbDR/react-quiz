@@ -19,7 +19,7 @@ const initialState = {
   questions: [],
   status: "loading",
   errorMsg: "",
-  currQuestion: 0,
+  currQuestion: 9,
   answer: null,
   score: 0,
   highScore: 0,
@@ -120,6 +120,7 @@ export default function App() {
     highScore,
     remainSeconds,
     reviewQuestions,
+    failedQuestions,
   } = state;
 
   const maxScore = questions.reduce(
@@ -220,6 +221,7 @@ export default function App() {
         )}
         {status === "finished" && (
           <FinishScreen
+            failedQuestions={failedQuestions}
             score={score}
             maxScore={maxScore}
             dispatch={dispatch}
