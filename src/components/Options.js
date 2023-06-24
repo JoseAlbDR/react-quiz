@@ -4,11 +4,12 @@ function Options({
   answer,
   correctOption,
   reviewQuestions,
+  wrongQuestionIndex,
 }) {
   function handleAnswer(i) {
     dispatch({ type: "newAnswer", payload: i });
   }
-
+  console.log(answer);
   const answered = answer !== null;
 
   return (
@@ -17,7 +18,8 @@ function Options({
         <button
           key={option}
           className={`btn btn-option
-          ${i === answer ? "answer" : ""} 
+          ${i === answer ? "answer" : ""}
+          ${i === wrongQuestionIndex ? "answer red" : ""}
           ${
             reviewQuestions || answered
               ? i === correctOption

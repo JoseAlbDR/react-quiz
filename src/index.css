@@ -301,5 +301,6 @@ code[class*="language-"] {
   justify-content: space-between;
 }
 
-.review-buttons {
+.red {
+  color: lightcoral;
 }

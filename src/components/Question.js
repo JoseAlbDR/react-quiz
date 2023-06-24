@@ -9,6 +9,7 @@ function Question({
   answer,
   score,
   reviewQuestions = false,
+  wrongQuestionIndex,
 }) {
   const {
     question,
@@ -28,7 +29,6 @@ function Question({
       <pre className="language-javascript">
         <code className="language-javascript">{code}</code>
       </pre>
-
       <Options
         reviewQuestions={reviewQuestions}
         options={options}
@@ -36,8 +36,13 @@ function Question({
         answer={answer}
         correctOption={correctOption}
         score={score}
+        wrongQuestionIndex={wrongQuestionIndex}
       />
-      {reviewQuestions && <p style={{ fontSize: "1.5rem" }}>{reviewAnswer}</p>}
+      {reviewQuestions && (
+        <p style={{ fontSize: "1.5rem", marginBottom: "1.5rem" }}>
+          {reviewAnswer}
+        </p>
+      )}
     </>
   );
 }

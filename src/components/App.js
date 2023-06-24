@@ -19,7 +19,7 @@ const initialState = {
   questions: [],
   status: "loading",
   errorMsg: "",
-  currQuestion: 9,
+  currQuestion: 0,
   answer: null,
   score: 0,
   highScore: 0,
@@ -28,6 +28,7 @@ const initialState = {
   difficulty: 45,
   reviewQuestions: false,
   failedQuestions: [],
+  wrongQuestionIndex: [],
 };
 
 let initialQuestions;
@@ -54,6 +55,7 @@ function reducer(state, action) {
       };
     case "newAnswer":
       const question = state.questions.at(state.currQuestion);
+      console.log(action.payload);
       return {
         ...state,
         answer: action.payload,
@@ -66,6 +68,10 @@ function reducer(state, action) {
           action.payload !== question.correctOption
             ? [...state.failedQuestions, question]
             : state.failedQuestions,
+        wrongQuestionIndex:
+          action.payload !== question.correctOption
+            ? [...state.wrongQuestionIndex, action.payload]
+            : state.wrongQuestionIndex,
       };
     case "nextQuestion":
       return { ...state, currQuestion: state.currQuestion++, answer: null };
@@ -102,6 +108,7 @@ function reducer(state, action) {
         currQuestion: 0,
         questions: state.failedQuestions,
         status: "review",
+        answer: null,
       };
     default:
       throw new Error("Unknow action.");
@@ -121,6 +128,7 @@ export default function App() {
     remainSeconds,
     reviewQuestions,
     failedQuestions,
+    wrongQuestionIndex,
   } = state;
 
   const maxScore = questions.reduce(
@@ -167,7 +175,7 @@ export default function App() {
               maxScore={maxScore}
               answer={answer}
             />
-
+            {console.log(wrongQuestionIndex)}
             <Question
               currQuestion={questions[currQuestion]}
               dispatch={dispatch}
@@ -201,15 +209,17 @@ export default function App() {
               answer={answer}
               score={score}
               reviewQuestions={reviewQuestions}
+              wrongQuestionIndex={wrongQuestionIndex[currQuestion]}
             />
-
             <Footer>
               {
                 <div className="finish-buttons">
                   {currQuestion !== 0 ? (
                     <PrevButton dispatch={dispatch}>Previous</PrevButton>
                   ) : (
-                    ""
+                    <button className="btn" disabled={true}>
+                      Previous
+                    </button>
                   )}
                   <NextButton dispatch={dispatch}>
                     {currQuestion + 1 === questions.length ? "Finish" : "Next"}

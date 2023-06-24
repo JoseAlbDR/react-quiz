@@ -544,14 +544,14 @@ exports.handler = async (event, context) => {
       
       bar gets invoked, "Second" gets logged, and it's popped off the stack.`,
     },
-    {
-      question: ``,
-      code: ``,
-      options: [`8`, `10`, `SyntaxError`, `ReferenceError`],
-      correctOption: 1,
-      points: 10,
-      answer: ``,
-    },
+    // {
+    //   question: ``,
+    //   code: ``,
+    //   options: [`8`, `10`, `SyntaxError`, `ReferenceError`],
+    //   correctOption: 1,
+    //   points: 10,
+    //   answer: ``,
+    // },
   ];
 
   const response = JSON.stringify(jsQuestions);
