@@ -1,3 +1,5 @@
+import SelectOption from "./SelectOption";
+
 function StartScreen({ numQuestions, dispatch }) {
   return (
     <div className="start">
@@ -6,22 +8,41 @@ function StartScreen({ numQuestions, dispatch }) {
         {numQuestions} question to test your JavaScript knowledge
       </h3>
       <div className="start-options">
-        <div>
-          <h4>Num Questions:</h4>
-          <select className="btn">
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={30}>30</option>
-          </select>
-        </div>
-        <div>
-          <h4>Difficulty</h4>
-          <select className="btn">
-            <option value={45}>Easy</option>
-            <option value={30}>Normal</option>
-            <option value={15}>Hard</option>
-          </select>
-        </div>
+        <SelectOption
+          dispatch={dispatch}
+          label="Num Questions:"
+          options={[
+            {
+              name: "10",
+              value: 10,
+            },
+            {
+              name: "20",
+              value: 20,
+            },
+            {
+              name: "30",
+              value: 30,
+            },
+          ]}
+        />
+        <SelectOption
+          label="Dificculty:"
+          options={[
+            {
+              name: "Easy",
+              value: 45,
+            },
+            {
+              name: "Normal",
+              value: 30,
+            },
+            {
+              name: "Hard",
+              value: 15,
+            },
+          ]}
+        />
       </div>
       <button
         className="btn btn-ui"
