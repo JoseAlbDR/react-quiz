@@ -277,3 +277,21 @@ code[class*="language-"] {
 .center {
   text-align: center;
 }
+
+.start-options {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.start-options select {
+  padding: 1rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.start-options h4 {
+  margin-bottom: 0;
+}
