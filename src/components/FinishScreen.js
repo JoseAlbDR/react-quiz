@@ -25,11 +25,13 @@ function FinishScreen({
       </p>
       <p className="highscore">(HighScore: {highScore} points)</p>
       <div className="finish-buttons">
-        {failedQuestions.length !== 0 && (
-          <button className="btn" onClick={() => dispatch({ type: "review" })}>
-            Review Answers
-          </button>
-        )}
+        <button
+          disabled={failedQuestions.length === 0}
+          className="btn"
+          onClick={() => dispatch({ type: "review" })}
+        >
+          Review Answers
+        </button>
 
         <button
           className="btn btn-ui"
