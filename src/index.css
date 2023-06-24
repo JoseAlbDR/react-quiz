@@ -272,3 +272,7 @@ pre[class*="language-"] {
 code[class*="language-"] {
   font-size: 2rem;
 }
+
+.center {
+  text-align: center;
+}
