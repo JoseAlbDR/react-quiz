@@ -112,8 +112,7 @@ exports.handler = async (event, context) => {
     },
     {
       question: `What's the output?`,
-      code: `+true;
-      !'Lydia';`,
+      code: `+true; !'Lydia';`,
       options: ["1 and false", "false and NaN", "false and false"],
       correctOption: 0,
       points: 10,
@@ -200,10 +199,356 @@ exports.handler = async (event, context) => {
       A function is a special type of object. The code you write yourself isn't the actual function. The function is an object with properties. This property is invocable.`,
     },
     {
+      question: `What's the output?`,
+      code:
+        `function Person(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+      }
+      
+      const member = new Person('Lydia', 'Hallie');
+      Person.getFullName = function() {
+        return` +
+        "`${this.firstName} ${this.lastName}`;" +
+        `
+      };
+      
+      console.log(member.getFullName());`,
+      options: [
+        "TypeError",
+        "SyntaxError",
+        "Lydia Hallie",
+        "undefined undefined",
+      ],
+      correctOption: 0,
+      points: 10,
+      answer: `In JavaScript, functions are objects, and therefore, the method getFullName gets added to the constructor function object itself. For that reason, we can call Person.getFullName(), but member.getFullName throws a TypeError.`,
+    },
+    {
+      question: `What's the output?`,
+      code: `function Person(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+      }
+      
+      const lydia = new Person('Lydia', 'Hallie');
+      const sarah = Person('Sarah', 'Smith');
+      
+      console.log(lydia);
+      console.log(sarah);`,
+      options: [
+        'Person {firstName: "Lydia", lastName: "Hallie"} and undefined',
+        'Person {firstName: "Lydia", lastName: "Hallie"} and Person {firstName: "Sarah", lastName: "Smith"}',
+        'Person {firstName: "Lydia", lastName: "Hallie"} and {}',
+        'Person {firstName: "Lydia", lastName: "Hallie"} and ReferenceError',
+      ],
+      correctOption: 0,
+      points: 10,
+      answer: ``,
+    },
+    {
+      question: ` What are the three phases of event propagation?`,
+      code: ``,
+      options: [
+        "A: Target > Capturing > Bubbling",
+        "B: Bubbling > Target > Capturing",
+        "C: Target > Bubbling > Capturing",
+        "D: Capturing > Target > Bubbling",
+      ],
+      correctOption: 3,
+      points: 10,
+      answer: `During the capturing phase, the event goes through the ancestor elements down to the target element. It then reaches the target element, and bubbling begins.`,
+    },
+    {
+      question: ` All object have prototypes.`,
+      code: ``,
+      options: ["true", "false"],
+      correctOption: 1,
+      points: 10,
+      answer: `All objects have prototypes, except for the base object. The base object is the object created by the user, or an object that is created using the new keyword. The base object has access to some methods and properties, such as .toString. This is the reason why you can use built-in JavaScript methods! All of such methods are available on the prototype. Although JavaScript can't find it directly on your object, it goes down the prototype chain and finds it there, which makes it accessible for you.`,
+    },
+    {
+      question: `What's the output?`,
+      code: `function sum(a, b) {
+        return a + b;
+      }
+      
+      sum(1, '2');`,
+      options: ["NaN", "TypeError", "12", "3"],
+      correctOption: 2,
+      points: 10,
+      answer: `JavaScript is a dynamically typed language: we don't specify what types certain variables are. Values can automatically be converted into another type without you knowing, which is called implicit type coercion. Coercion is converting from one type into another.
+
+      In this example, JavaScript converts the number 1 into a string, in order for the function to make sense and return a value. During the addition of a numeric type (1) and a string type ('2'), the number is treated as a string. We can concatenate strings like "Hello" + "World", so what's happening here is "1" + "2" which returns "12".
+      
+      `,
+    },
+    {
+      question: `What's the output?`,
+      code: `let number = 0;
+      console.log(number++);
+      console.log(++number);
+      console.log(number);`,
+      options: ["1 1 2", "1 2 2", "0 2 2", "0 1 2"],
+      correctOption: 2,
+      points: 10,
+      answer: `The postfix unary operator ++:
+      Returns the value (this returns 0)
+      Increments the value (number is now 1)
+
+      The prefix unary operator ++:
+      Increments the value (number is now 2)
+      Returns the value (this returns 2)
+
+      This returns 0 2 2.`,
+    },
+    {
+      question: `What's the output?`,
+      code:
+        `function getPersonInfo(one, two, three) {
+        console.log(one);
+        console.log(two);
+        console.log(three);
+      }
+      
+      const person = 'Lydia';
+      const age = 21;
+      
+      getPersonInfo` +
+        "${person} is ${age} years old" +
+        `;`,
+      options: [
+        `"Lydia" 21 ["", " is ", " years old"]`,
+        `["", " is ", " years old"] "Lydia" 21`,
+        `"Lydia" ["", " is ", " years old"] 21`,
+      ],
+      correctOption: 1,
+      points: 10,
+      answer: `If you use tagged template literals, the value of the first argument is always an array of the string values. The remaining arguments get the values of the passed expressions!`,
+    },
+    {
+      question: `What's the output?`,
+      code: `function checkAge(data) {
+        if (data === { age: 18 }) {
+          console.log('You are an adult!');
+        } else if (data == { age: 18 }) {
+          console.log('You are still an adult.');
+        } else {
+          console.log('Hmm.. You don't have an age I guess');
+        }
+      }
+      
+      checkAge({ age: 18 });`,
+      options: [
+        `You are an adult!`,
+        `You are still an adult.`,
+        `Hmm.. You don't have an age I guess`,
+      ],
+      correctOption: 2,
+      points: 10,
+      answer: `When testing equality, primitives are compared by their value, while objects are compared by their reference. JavaScript checks if the objects have a reference to the same location in memory.
+
+      The two objects that we are comparing don't have that: the object we passed as a parameter refers to a different location in memory than the object we used in order to check equality.
+      
+      This is why both { age: 18 } === { age: 18 } and { age: 18 } == { age: 18 } return false.`,
+    },
+    {
+      question: ` What's the output?`,
+      code: `function getAge(...args) {
+        console.log(typeof args);
+      }
+      
+      getAge(21);`,
+      options: [`"number"`, `"array"`, `"object"`, `"NaN"`],
+      correctOption: 2,
+      points: 10,
+      answer: `The rest parameter (...args) lets us "collect" all remaining arguments into an array. An array is an object, so typeof args returns "object"
+      `,
+    },
+    {
+      question: `What's the output?`,
+      code: `function getAge() {
+        'use strict';
+        age = 21;
+        console.log(age);
+      }
+      
+      getAge();`,
+      options: [`21`, `undefined`, `ReferenceError`, `TypeError`],
+      correctOption: 2,
+      points: 10,
+      answer: `With "use strict", you can make sure that you don't accidentally declare global variables. We never declared the variable age, and since we use "use strict", it will throw a reference error. If we didn't use "use strict", it would have worked, since the property age would have gotten added to the global object.
+
+      `,
+    },
+    {
+      question: `What's the value of sum?`,
+      code: `const sum = eval('10*10+5');`,
+      options: [`105`, `"105"`, `TypeError`, `"10*10+5"`],
+      correctOption: 0,
+      points: 10,
+      answer: `eval evaluates codes that's passed as a string. If it's an expression, like in this case, it evaluates the expression. The expression is 10 * 10 + 5. This returns the number 105.`,
+    },
+    {
+      question: `How long is cool_secret accessible?`,
+      code: `sessionStorage.setItem('cool_secret', 123);`,
+      options: [
+        `Forever, the data doesn't get lost.`,
+        `When the user closes the tab.`,
+        `When the user closes the entire browser, not only the tab.`,
+        `When the user shuts off their computer.`,
+      ],
+      correctOption: 1,
+      points: 10,
+      answer: `The data stored in sessionStorage is removed after closing the tab.
+
+      If you used localStorage, the data would've been there forever, unless for example localStorage.clear() is invoked.`,
+    },
+    {
+      question: `What's the output?`,
+      code: `var num = 8;
+      var num = 10;
+      
+      console.log(num);`,
+      options: [`8`, `10`, `SyntaxError`, `ReferenceError`],
+      correctOption: 1,
+      points: 10,
+      answer: `With the var keyword, you can declare multiple variables with the same name. The variable will then hold the latest value.
+
+      You cannot do this with let or const since they're block-scoped.`,
+    },
+    {
+      question: `What's the output?`,
+      code: `const obj = { 1: 'a', 2: 'b', 3: 'c' };
+      const set = new Set([1, 2, 3, 4, 5]);
+      
+      obj.hasOwnProperty('1');
+      obj.hasOwnProperty(1);
+      set.has('1');
+      set.has(1);`,
+      options: [
+        `false true false true`,
+        `false true true true`,
+        `true true false true`,
+        `true true true true`,
+      ],
+      correctOption: 2,
+      points: 10,
+      answer: `All object keys (excluding Symbols) are strings under the hood, even if you don't type it yourself as a string. This is why obj.hasOwnProperty('1') also returns true.
+
+      It doesn't work that way for a set. There is no '1' in our set: set.has('1') returns false. It has the numeric type 1, set.has(1) returns true.`,
+    },
+    {
+      question: `What's the output?`,
+      code: `const obj = { a: 'one', b: 'two', a: 'three' };
+      console.log(obj);`,
+      options: [
+        `{ a: "one", b: "two" }`,
+        `{ b: "two", a: "three" }`,
+        `{ a: "three", b: "two" }`,
+        `SyntaxError`,
+      ],
+      correctOption: 2,
+      points: 10,
+      answer: `If you have two keys with the same name, the key will be replaced. It will still be in its first position, but with the last specified value.`,
+    },
+    {
+      question: `The JavaScript global execution context creates two things for you: the global object, and the "this" keyword.`,
+      code: ``,
+      options: [`true`, `false`, `it depends`],
+      correctOption: 0,
+      points: 10,
+      answer: `The base execution context is the global execution context: it's what's accessible everywhere in your code.`,
+    },
+    {
+      question: `What's the output?`,
+      code: `for (let i = 1; i < 5; i++) {
+        if (i === 3) continue;
+        console.log(i);
+      }`,
+      options: [`1 2`, `1 2 3`, `1 2 4`, `1 3 4`],
+      correctOption: 2,
+      points: 10,
+      answer: `The continue statement skips an iteration if a certain condition returns true.`,
+    },
+    {
+      question: ` What's the output?`,
+      code: `String.prototype.giveLydiaPizza = () => {
+        return 'Just give Lydia pizza already!';
+      };
+      
+      const name = 'Lydia';
+      
+      console.log(name.giveLydiaPizza())`,
+      options: [
+        `"Just give Lydia pizza already!"`,
+        `TypeError: not a function`,
+        `SyntaxError`,
+        `undefined`,
+      ],
+      correctOption: 0,
+      points: 10,
+      answer: `String is a built-in constructor, which we can add properties to. I just added a method to its prototype. Primitive strings are automatically converted into a string object, generated by the string prototype function. So, all strings (string objects) have access to that method!`,
+    },
+    {
+      question: ` What's the output?`,
+      code: `const a = {};
+      const b = { key: 'b' };
+      const c = { key: 'c' };
+      
+      a[b] = 123;
+      a[c] = 456;
+      
+      console.log(a[b]);`,
+      options: [`123`, `456`, `undefined`, `ReferenceError`],
+      correctOption: 1,
+      points: 10,
+      answer: `Object keys are automatically converted into strings. We are trying to set an object as a key to object a, with the value of 123.
+
+      However, when we stringify an object, it becomes "[object Object]". So what we are saying here, is that a["[object Object]"] = 123. Then, we can try to do the same again. c is another object that we are implicitly stringifying. So then, a["[object Object]"] = 456.
+      
+      Then, we log a[b], which is actually a["[object Object]"]. We just set that to 456, so it returns 456.
+      
+      `,
+    },
+    {
+      question: `What's the output?`,
+      code: `const foo = () => console.log('First');
+      const bar = () => setTimeout(() => console.log('Second'));
+      const baz = () => console.log('Third');
+      
+      bar();
+      foo();
+      baz();`,
+      options: [
+        `First Second Third`,
+        `First Third Second`,
+        `Second First Third`,
+        `Second Third First`,
+      ],
+      correctOption: 1,
+      points: 10,
+      answer: `We have a setTimeout function and invoked it first. Yet, it was logged last.
+
+      This is because in browsers, we don't just have the runtime engine, we also have something called a WebAPI. The WebAPI gives us the setTimeout function to start with, and for example the DOM.
+      
+      After the callback is pushed to the WebAPI, the setTimeout function itself (but not the callback!) is popped off the stack.
+      
+      Now, foo gets invoked, and "First" is being logged.
+      
+      foo is popped off the stack, and baz gets invoked. "Third" gets logged.
+      
+      The WebAPI can't just add stuff to the stack whenever it's ready. Instead, it pushes the callback function to something called the queue.
+      
+      This is where an event loop starts to work. An event loop looks at the stack and task queue. If the stack is empty, it takes the first thing on the queue and pushes it onto the stack.
+      
+      bar gets invoked, "Second" gets logged, and it's popped off the stack.`,
+    },
+    {
       question: ``,
       code: ``,
-      options: ["", "", "", ""],
-      correctOption: 0,
+      options: [`8`, `10`, `SyntaxError`, `ReferenceError`],
+      correctOption: 1,
       points: 10,
       answer: ``,
     },
