@@ -1,5 +1,5 @@
 exports.handler = async (event, context) => {
-  const questions = [
+  const reactQuestions = [
     {
       question: "Which is the most popular JavaScript framework?",
       options: ["Angular", "React", "Svelte", "Vue"],
@@ -141,7 +141,30 @@ exports.handler = async (event, context) => {
       points: 20,
     },
   ];
-  const response = JSON.stringify(questions);
+
+  const jsQuestions = [
+    {
+      question: `¿Qué devuelve la siguiente función?
+
+      function sayHi() {
+        console.log(name);
+        console.log(age);
+        var name = "Lydia";
+        let age = 21;
+      }`,
+
+      options: [
+        "`Lydia` y `undefined`",
+        "`Lydia` y `ReferenceError`",
+        "`ReferenceError` y `21`",
+        "undefined` y `ReferenceError",
+      ],
+      correctOption: 3,
+      points: 10,
+    },
+  ];
+
+  const response = JSON.stringify(jsQuestions);
   return {
     statusCode: 200,
     body: response,
