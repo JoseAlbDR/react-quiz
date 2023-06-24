@@ -34,10 +34,13 @@ function reducer(state, action) {
     case "dataFailed":
       return { ...state, status: "error", errorMsg: action.payload };
     case "start":
+      const shufled = state.questions.slice().sort(() => 0.5 - Math.random());
+      const selected = shufled.slice(0, state.numQuestions);
       return {
         ...state,
         status: "active",
         remainSeconds: state.questions.length * state.difficulty,
+        questions: selected,
       };
     case "newAnswer":
       const question = state.questions.at(state.currQuestion);
