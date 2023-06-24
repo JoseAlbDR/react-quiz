@@ -140,9 +140,7 @@ export default function App() {
               <Timer seconds={remainSeconds} dispatch={dispatch} />
               {answer !== null && (
                 <NextButton dispatch={dispatch}>
-                  {currQuestion + 1 === questions.length
-                    ? "Terminar"
-                    : "Siguiente"}
+                  {currQuestion + 1 === questions.length ? "Finish" : "Next"}
                 </NextButton>
               )}
             </Footer>

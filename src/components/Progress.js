@@ -6,10 +6,10 @@ function Progress({ currQuestion, numQuestions, score, maxScore, answer }) {
         value={currQuestion + +(answer !== null)}
       ></progress>
       <p>
-        Pregunta <strong>{currQuestion + 1}</strong>/{numQuestions}
+        Question <strong>{currQuestion + 1}</strong>/{numQuestions}
       </p>
       <p>
-        <strong>{score}</strong>/{maxScore} puntos
+        <strong>{score}</strong>/{maxScore} points
       </p>
     </div>
   );

@@ -1,15 +1,15 @@
 function StartScreen({ numQuestions, dispatch }) {
   return (
     <div className="start">
-      <h2 className="center">Bienvenido al Quiz de JavaScript!</h2>
+      <h2 className="center">Welcome to The JavaScript QUIZ!</h2>
       <h3 className="center">
-        {numQuestions} preguntas para probar tu conocimiento en JavaScript
+        {numQuestions} question to test your JavaScript knowledge
       </h3>
       <button
         className="btn btn-ui"
         onClick={() => dispatch({ type: "start" })}
       >
-        Empezar!!!
+        Let's Start!!!
       </button>
     </div>
   );
