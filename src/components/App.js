@@ -13,7 +13,7 @@ import FinishScreen from "./FinishScreen";
 import Footer from "./Footer";
 import Timer from "./Timer";
 
-const SECS_PER_QUESTION = 30;
+const SECS_PER_QUESTION = 500;
 // "loading", "error", "ready", "active", "finished"
 const initialState = {
   questions: [],
@@ -95,7 +95,7 @@ export default function App() {
         // dispatch({ type: "loading" });
         // const res = await fetch("http://localhost:8000/questions");
         const res = await fetch(
-          "https://jadr-reactquiz.netlify.app/.netlify/functions/data-json"
+          "http://localhost:9999/.netlify/functions/data-json"
         );
         if (!res.ok) throw new Error("Something happened.");
         const data = await res.json();

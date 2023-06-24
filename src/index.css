@@ -263,3 +263,12 @@ progress {
   font-size: inherit;
   padding: 0.8rem;
 }
+
+pre[class*="language-"] {
+  background: inherit;
+  font-size: 1rem;
+}
+
+code[class*="language-"] {
+  font-size: 2rem;
+}
