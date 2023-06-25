@@ -19,14 +19,16 @@ function Options({
           key={option}
           className={`btn btn-option
           ${i === answer ? "answer" : ""}
-          ${i === wrongQuestionIndex ? "answer red" : ""}
+          ${i === wrongQuestionIndex ? "answer" : ""}
+          
           ${
             reviewQuestions || answered
               ? i === correctOption
                 ? "correct"
                 : "wrong"
               : ""
-          }`}
+          }
+          ${i === wrongQuestionIndex ? "review-wrong" : ""}`}
           onClick={() => handleAnswer(i)}
           disabled={reviewQuestions || answered}
         >

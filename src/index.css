@@ -301,6 +301,7 @@ code[class*="language-"] {
   justify-content: space-between;
 }
 
-.red {
-  color: lightcoral;
+.btn-option.review-wrong {
+  background-color: lightcoral;
+  border: 2px solid lightcoral;
 }
