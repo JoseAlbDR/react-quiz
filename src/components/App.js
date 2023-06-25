@@ -13,6 +13,16 @@ import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
 import Footer from "./Footer";
 import Timer from "./Timer";
+// import logo from "./logo.svg";
+import "@aws-amplify/ui-react/styles.css";
+import {
+  withAuthenticator,
+  Button,
+  Heading,
+  Image,
+  View,
+  Card,
+} from "@aws-amplify/ui-react";
 
 // "loading", "error", "ready", "active", "finished"
 const initialState = {
@@ -115,7 +125,7 @@ function reducer(state, action) {
   }
 }
 
-export default function App() {
+function App({ signOut }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const {
     questions,
@@ -157,88 +167,101 @@ export default function App() {
   }, []);
 
   return (
-    <div className="app">
-      <Header />
+    <>
+      <View className="App">
+        <Card>
+          {/* <Image src={logo} className="App-logo" alt="logo" /> */}
+          <Heading level={1}>We now have Auth!</Heading>
+        </Card>
+        <Button onClick={signOut}>Sign Out</Button>
+      </View>
+      <div className="app">
+        <Header />
 
-      <Main>
-        {status === "loading" && <Loader />}
-        {status === "error" && <Error msg={errorMsg} />}
-        {status === "ready" && (
-          <StartScreen numQuestions={questions.length} dispatch={dispatch} />
-        )}
-        {status === "active" && (
-          <>
-            <Progress
-              currQuestion={currQuestion}
-              numQuestions={questions.length}
-              score={score}
-              maxScore={maxScore}
-              answer={answer}
-            />
-            {console.log(wrongQuestionIndex)}
-            <Question
-              currQuestion={questions[currQuestion]}
-              dispatch={dispatch}
-              answer={answer}
-              score={score}
-            />
+        <Main>
+          {status === "loading" && <Loader />}
+          {status === "error" && <Error msg={errorMsg} />}
+          {status === "ready" && (
+            <StartScreen numQuestions={questions.length} dispatch={dispatch} />
+          )}
+          {status === "active" && (
+            <>
+              <Progress
+                currQuestion={currQuestion}
+                numQuestions={questions.length}
+                score={score}
+                maxScore={maxScore}
+                answer={answer}
+              />
+              {console.log(wrongQuestionIndex)}
+              <Question
+                currQuestion={questions[currQuestion]}
+                dispatch={dispatch}
+                answer={answer}
+                score={score}
+              />
 
-            <Footer>
-              <Timer seconds={remainSeconds} dispatch={dispatch} />
-              {answer !== null && (
-                <NextButton dispatch={dispatch}>
-                  {currQuestion + 1 === questions.length ? "Finish" : "Next"}
-                </NextButton>
-              )}
-            </Footer>
-          </>
-        )}
-        {status === "review" && (
-          <>
-            <Progress
-              currQuestion={currQuestion}
-              numQuestions={questions.length}
-              score={score}
-              maxScore={maxScore}
-              answer={answer}
-            />
-
-            <Question
-              currQuestion={questions[currQuestion]}
-              dispatch={dispatch}
-              answer={answer}
-              score={score}
-              reviewQuestions={reviewQuestions}
-              wrongQuestionIndex={wrongQuestionIndex[currQuestion]}
-            />
-            <Footer>
-              {
-                <div className="finish-buttons">
-                  {currQuestion !== 0 ? (
-                    <PrevButton dispatch={dispatch}>Previous</PrevButton>
-                  ) : (
-                    <button className="btn" disabled={true}>
-                      Previous
-                    </button>
-                  )}
+              <Footer>
+                <Timer seconds={remainSeconds} dispatch={dispatch} />
+                {answer !== null && (
                   <NextButton dispatch={dispatch}>
                     {currQuestion + 1 === questions.length ? "Finish" : "Next"}
                   </NextButton>
-                </div>
-              }
-            </Footer>
-          </>
-        )}
-        {status === "finished" && (
-          <FinishScreen
-            failedQuestions={failedQuestions}
-            score={score}
-            maxScore={maxScore}
-            dispatch={dispatch}
-            highScore={highScore}
-          />
-        )}
-      </Main>
-    </div>
+                )}
+              </Footer>
+            </>
+          )}
+          {status === "review" && (
+            <>
+              <Progress
+                currQuestion={currQuestion}
+                numQuestions={questions.length}
+                score={score}
+                maxScore={maxScore}
+                answer={answer}
+              />
+
+              <Question
+                currQuestion={questions[currQuestion]}
+                dispatch={dispatch}
+                answer={answer}
+                score={score}
+                reviewQuestions={reviewQuestions}
+                wrongQuestionIndex={wrongQuestionIndex[currQuestion]}
+              />
+              <Footer>
+                {
+                  <div className="finish-buttons">
+                    {currQuestion !== 0 ? (
+                      <PrevButton dispatch={dispatch}>Previous</PrevButton>
+                    ) : (
+                      <button className="btn" disabled={true}>
+                        Previous
+                      </button>
+                    )}
+                    <NextButton dispatch={dispatch}>
+                      {currQuestion + 1 === questions.length
+                        ? "Finish"
+                        : "Next"}
+                    </NextButton>
+                  </div>
+                }
+              </Footer>
+            </>
+          )}
+          {status === "finished" && (
+            <FinishScreen
+              failedQuestions={failedQuestions}
+              score={score}
+              maxScore={maxScore}
+              dispatch={dispatch}
+              highScore={highScore}
+            />
+          )}
+        </Main>
+      </div>
+    </>
   );
 }
+
+export default withAuthenticator(App);
