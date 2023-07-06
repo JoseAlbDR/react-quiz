@@ -9,7 +9,6 @@ function Timer() {
   useEffect(
     function () {
       const timer = setInterval(function () {
-        // console.log("tick");
         dispatch({ type: "tick" });
       }, 1000);
       return () => clearInterval(timer);

@@ -68,7 +68,7 @@ function QuizProvider({ children }) {
     answer,
     score,
     highScore,
-    remainSeconds,
+    remainSeconds: seconds,
   } = state;
 
   const maxScore = questions.reduce(
@@ -105,7 +105,7 @@ function QuizProvider({ children }) {
         answer,
         score,
         highScore,
-        remainSeconds,
+        seconds,
         dispatch,
         questions,
         numQuestions,

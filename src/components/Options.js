@@ -7,8 +7,6 @@ function Options({ options, correctOption }) {
   }
 
   const answered = answer !== null;
-
-  console.log(options);
   return (
     <div className="options">
       {options.map((option, i) => (

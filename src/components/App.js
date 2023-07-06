@@ -14,7 +14,7 @@ import Timer from "./Timer";
 import { useQuiz } from "../context/QuizContext";
 
 export default function App() {
-  const { status, answer, currQuestion, questions } = useQuiz();
+  const { status } = useQuiz();
   return (
     <div className="app">
       <Header />
@@ -29,11 +29,7 @@ export default function App() {
             <Question />
             <Footer>
               <Timer />
-              {answer !== null && (
-                <NextButton>
-                  {currQuestion + 1 === questions.length ? "Finish" : "Next"}
-                </NextButton>
-              )}
+              <NextButton />
             </Footer>
           </>
         )}
