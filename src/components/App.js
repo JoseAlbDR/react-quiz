@@ -5,152 +5,39 @@ import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import Question from "./Question";
-import { useEffect, useReducer, useRef } from "react";
 import StartScreen from "./StartScreen";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
 import Footer from "./Footer";
 import Timer from "./Timer";
-
-const SECS_PER_QUESTION = 30;
-// "loading", "error", "ready", "active", "finished"
-const initialState = {
-  questions: [],
-  status: "loading",
-  errorMsg: "",
-  currQuestion: 0,
-  answer: null,
-  score: 0,
-  highScore: 0,
-  remainSeconds: null,
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "dataRecieved":
-      return { ...state, questions: action.payload, status: "ready" };
-    case "dataFailed":
-      return { ...state, status: "error", errorMsg: action.payload };
-    case "start":
-      return {
-        ...state,
-        status: "active",
-        remainSeconds: state.questions.length * SECS_PER_QUESTION,
-      };
-    case "newAnswer":
-      const question = state.questions.at(state.currQuestion);
-      return {
-        ...state,
-        answer: action.payload,
-        score:
-          // action.payload = selected index
-          action.payload === question.correctOption
-            ? state.score + question.points
-            : state.score,
-      };
-    case "nextQuestion":
-      return { ...state, currQuestion: state.currQuestion++, answer: null };
-    case "finish":
-      return {
-        ...state,
-        status: "finished",
-        highScore:
-          state.score > state.highScore ? state.score : state.highScore,
-      };
-    case "restart":
-      return { ...initialState, status: "ready", questions: state.questions };
-    case "tick":
-      return {
-        ...state,
-        remainSeconds: state.remainSeconds - 1,
-        status: state.remainSeconds === 0 ? "finished" : state.status,
-      };
-    default:
-      throw new Error("Unknow action.");
-  }
-}
+import { useQuiz } from "../context/QuizContext";
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const {
-    questions,
-    status,
-    errorMsg,
-    currQuestion,
-    answer,
-    score,
-    highScore,
-    remainSeconds,
-  } = state;
-
-  const maxScore = questions.reduce(
-    (acc, question) => acc + question.points,
-    0
-  );
-
-  useEffect(function () {
-    async function getData() {
-      try {
-        // dispatch({ type: "loading" });
-        const res = await fetch("http://localhost:8000/questions");
-        if (!res.ok) throw new Error("Something happened.");
-        const data = await res.json();
-        if (!data) throw new Error("No data.");
-        dispatch({ type: "dataRecieved", payload: data });
-      } catch (err) {
-        console.log(err.message);
-        dispatch({ type: "dataFailed", payload: err.message });
-      }
-    }
-    getData();
-  }, []);
-
+  const { status, answer, currQuestion, questions } = useQuiz();
   return (
     <div className="app">
       <Header />
 
       <Main>
         {status === "loading" && <Loader />}
-        {status === "error" && <Error msg={errorMsg} />}
-        {status === "ready" && (
-          <StartScreen numQuestions={questions.length} dispatch={dispatch} />
-        )}
+        {status === "error" && <Error />}
+        {status === "ready" && <StartScreen />}
         {status === "active" && (
           <>
-            <Progress
-              currQuestion={currQuestion}
-              numQuestions={questions.length}
-              score={score}
-              maxScore={maxScore}
-              answer={answer}
-            />
-
-            <Question
-              currQuestion={questions[currQuestion]}
-              dispatch={dispatch}
-              answer={answer}
-              score={score}
-            />
-
+            <Progress />
+            <Question />
             <Footer>
-              <Timer seconds={remainSeconds} dispatch={dispatch} />
+              <Timer />
               {answer !== null && (
-                <NextButton dispatch={dispatch}>
+                <NextButton>
                   {currQuestion + 1 === questions.length ? "Finish" : "Next"}
                 </NextButton>
               )}
             </Footer>
           </>
         )}
-        {status === "finished" && (
-          <FinishScreen
-            score={score}
-            maxScore={maxScore}
-            dispatch={dispatch}
-            highScore={highScore}
-          />
-        )}
+        {status === "finished" && <FinishScreen />}
       </Main>
     </div>
   );

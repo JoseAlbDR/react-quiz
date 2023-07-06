@@ -1,4 +1,7 @@
-function NextButton({ dispatch, children }) {
+import { useQuiz } from "../context/QuizContext";
+
+function NextButton({ children }) {
+  const { dispatch } = useQuiz();
   return (
     <button
       className="btn btn-ui"
